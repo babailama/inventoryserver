@@ -36,17 +36,21 @@ public class ServerListener implements Runnable {
             try {
                 clientSocket = this.serverSocket.accept();
             } catch (IOException e) {
-                log.fatal("Cant accept client connection.", new RuntimeException("Cant accept client connection.", e));
+                log.fatal("Can't accept client connection.", new RuntimeException("Can't accept client connection.", e));
             }
-            new Thread (new ServerWorker (clientSocket)).start ( );
+            new Thread(new ServerWorker(clientSocket)).start();
         }
 
     }
 
     public synchronized void stop() {
+        log.info("try to stopping the server");
         this.isStopped = true;
+        log.info("Stopping the server, set isStopped");
         try {
+            log.info("Stopping the server, close socket");
             this.serverSocket.close();
+            log.info("Stopping the server, socket closed");
         } catch (IOException e) {
             log.fatal("Error close server socket", new RuntimeException("Error closing server", e));
         }
